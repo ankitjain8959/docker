@@ -121,4 +121,39 @@ When you use Docker, you are creating and using images, containers, networks, vo
 - If your container needs to communicate with others, it joins a `network`.
 - For data persistence, use `volumes` to store important data that survives container restarts.
 
+# Build Image & Run Container
+- To build a docker image: `docker build -t my-image .`
+- To run a docker container: `docker run my-image`
+- To run a docker container on a specific port: `docker run -p <host_port>:<container_port> my-image`
+
+**<host_port>** is the port on the host machine (i.e. your computer). <br>
+**<container_port**> is the port on the container (inside Docker). <br>
+`-p 8080:8080` maps port 8080 on the host machine to port 8080 on the container. <br>
+Since Spring Boot applications typically run on port 8080, this mapping allows external access to the application running inside the container.
+
+- To run a docker container in detached mode (i.e. in the background, without blocking the terminal and container keeps running even if you close the terminal session): `docker run -d my-image`
+  
+# Docker Cheat Sheet
+- To list running containers: `docker ps`
+- To list all containers: `docker ps -a`
+
+- To list images: `docker images`
+
+- To remove a container: `docker rm container-id`
+- To remove an image: `docker rmi image-id`
+
+- To pull an image from Docker Hub: `docker pull image-name`
+- To push an image to Docker Hub: `docker push image-name`
+
+- To build a docker image: `docker build -t my-image .`
+- To run a docker container: `docker run my-image`
+- To run a docker container in detached mode: `docker run -d my-image`
+- To run a docker container on a specific port: `docker run -p <host_port>:<container_port> my-image`
+
+- To start a container: `docker start container-id`
+- To stop a container: `docker stop container-id`
+
+- To see logs of a container: `docker logs container-id`
+- To see & follow logs in real time of a container: `docker logs -f container-id`
+
 # Next: Docker Compose
