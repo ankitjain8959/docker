@@ -134,26 +134,41 @@ Since Spring Boot applications typically run on port 8080, this mapping allows e
 - To run a docker container in detached mode (i.e. in the background, without blocking the terminal and container keeps running even if you close the terminal session): `docker run -d my-image`
   
 # Docker Cheat Sheet
+> Docker process command
 - To list running containers: `docker ps`
 - To list all containers: `docker ps -a`
 
+> Docker image command
 - To list images: `docker images`
 
+> Docker remove command
 - To remove a container: `docker rm container-id`
 - To remove an image: `docker rmi image-id`
 
+> Docker pull/push command
 - To pull an image from Docker Hub: `docker pull image-name`
 - To push an image to Docker Hub: `docker push image-name`
 
+> Docker build/run command
 - To build a docker image: `docker build -t my-image .`
 - To run a docker container: `docker run my-image`
 - To run a docker container in detached mode: `docker run -d my-image`
 - To run a docker container on a specific port: `docker run -p <host_port>:<container_port> my-image`
 
+> Docker start/stop command
 - To start a container: `docker start container-id`
 - To stop a container: `docker stop container-id`
 
-- To see logs of a container: `docker logs container-id`
-- To see & follow logs in real time of a container: `docker logs -f container-id`
+> Docker logs command
+- To see logs/output of a container: `docker logs container-id`
+- To see & follow logs/output in real time of a container: `docker logs -f container-id`
+
+> Docker inspect command
+- To inspect a container (i.e. to see low-level information about Docker objects): `docker inspect container-id`
+
+> Docker exec command
+- To run a command in a running container: `docker exec container-id ls`
+- To run a command in a running container in interactive mode: `docker exec -it container-id /bin/bash`
+- To run a command in a running container in interactive mode: `docker exec -it container-id /bin/sh`
 
 # Next: Docker Compose
