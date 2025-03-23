@@ -138,6 +138,11 @@ Since Spring Boot applications typically run on port 8080, this mapping allows e
 - To list running containers: `docker ps`
 - To list all containers: `docker ps -a`
 
+> Docker format command
+- To customize the output of the `docker ps` command: `docker ps --format "FORMAT_STRING"` <br>
+For example, to display only the container ID and name in the output, you can use: <br>
+docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
+
 > Docker image command
 - To list images: `docker images`
 
