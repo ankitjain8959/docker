@@ -176,4 +176,14 @@ docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
 - To run a command in a running container in interactive mode: `docker exec -it container-id /bin/bash`
 - To run a command in a running container in interactive mode: `docker exec -it container-id /bin/sh`
 
+  > Docker login/logout command
+- To log in to Docker Hub: `docker login`
+- To log in to a specific registry: `docker login registry-url`
+- To log in to a registry with a username: `docker login -u username registry-url`
+- To log in to a registry with a username and password: `docker login -u username -p password registry-url` <br>
+  Note: It's recommended to use a token instead of a password for security reasons.
+
+- To log out from Docker Hub: `docker logout`
+- To log out from a specific registry: `docker logout registry-url`
+
 # Next: Docker Compose
