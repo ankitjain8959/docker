@@ -2,7 +2,7 @@
 Docker is a tool that helps developers package their applications along with everything they need to run—code, libraries, dependencies—into a single container (or, a lightweight & standalone package). <br>
 This container can then be run on any machine that has Docker installed, regardless of the customized settings of the machine. <br>
 
-## Containers vs Virtual Machines
+# Containers vs Virtual Machines
 A Container is a `self-contained package` (as it includes the application code, runtime, libraries, and dependencies) & `an isolated execution environment` (as it runs separately from the host system, ensuring consistency across different machines). <br>
 
 A Virtual Machine (VM) is a software-based computer that runs inside another physical computer. It behaves like a real computer with its own operating system (OS), CPU, memory, and storage, but it shares the underlying hardware with other VMs. <br>
@@ -50,15 +50,14 @@ It provides everything needed to develop, ship, and deploy applications in a con
 - Docker is written in Go and takes advantage of several features of the Linux kernel to deliver its functionality. <br>
 - Docker uses a technology called `namespaces` (a linux feature) to provide the isolated workspace called the container. When you run a container, Docker creates a set of namespaces for that container. <br>
 
-## Benefits of Docker
-- Docker ensures that your application runs the same way on any machine—your laptop, a server, or the cloud. <br>
+# Benefits of Docker
+- Docker ensures that your application runs the same way on any machine — your laptop, a server, or the cloud. <br>
 ✅ No more `It works on my machine!` issues <br>
 ✅ Package all dependencies into a container <br>
 ✅ Works across Windows, macOS, and Linux <br>
 
 - Docker is perfect for microservices, where each service runs in its own container. <br>
 - Docker works with Kubernetes, an open-source container orchestration platform, to manage and scale containers. It deploys more containers as demand increases. <br>
-
 
 ## Example use cases of Docker
 Instead of installing databases and tools directly on your machine, run them in Docker! <br>
@@ -185,5 +184,3 @@ docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
 
 - To log out from Docker Hub: `docker logout`
 - To log out from a specific registry: `docker logout registry-url`
-
-# Next: Docker Compose
