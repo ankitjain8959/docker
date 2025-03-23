@@ -1,49 +1,3 @@
-# Docker commands
-## How to list all Docker containers (including stopped ones)?
-`docker ps -a` <br>
-
-## How to remove a Docker container?
-`docker rm container-id` <br>
-
-## How to remove a Docker image?
-`docker rmi image-id` <br>
-
-## How to list all Docker images?
-`docker images` <br>
-
-## How to pull a Docker image from Docker Hub?
-`docker pull image-name` <br>
-
-## How to push a Docker image to Docker Hub?
-`docker push image-name` <br>
-
-## How to start a Docker container?
-`docker start container-id` <br>
-
-## How to stop a Docker container?
-`docker stop container-id` <br>
-
-## How to see logs of a Docker container?
-`docker logs container-id` <br>
-
-## How to see & follow logs in real-time of a Docker container?
-`docker logs -f container-id` <br>
-
-## How to list running Docker containers?
-`docker ps` <br>
-
-## How to build a Docker image?
-`docker build -t my-image .` <br>
-
-## How to run a Docker container?
-`docker run my-image` <br>
-
-## How to format the output of `docker ps` command?
-`docker ps --format "FORMAT_STRING"` <br>
-
-For example, to display only the container ID and name in the output, you can use: <br>
-`docker ps --format "ID: {{.ID}}\tName: {{.Names}}"` <br>
-
 # Docker port mapping 
 ## How to run a Docker container on a specific port?
 When running a Docker container, you can map the container's internal port to a specific port on the host machine using the `-p` flag. <br>
@@ -120,25 +74,6 @@ For example, to share volumes from a container named `data-container` with anoth
 This allows the new container to access the volumes mounted in the `data-container`. <br>
 
 
-## How to format the output of `docker ps` command?
-To format the output of the `docker ps` command, you can use the `--format` flag followed by a format string. <br>
-`docker ps --format "FORMAT_STRING"` <br>
-
-For example, to display only the container ID and name in the output, you can use: <br>
-`docker ps --format "ID: {{.ID}}\tName: {{.Names}}"` <br>
-
-This allows you to customize the output of the `docker ps` command to display specific information about the containers. <br>
-
-
-# Docker ignore file
-## What is a `.dockerignore` file?
-A `.dockerignore` file is used to exclude specific files and directories from being copied into a Docker image during the build process.
-It works similarly to a `.gitignore` file, allowing you to specify patterns to exclude files and directories. <br>
-
-## Why use a `.dockerignore` file?
-Using a `.dockerignore` file helps reduce the size of the Docker image by excluding unnecessary files and directories.
-This can speed up the build process and reduce the size of the final image, making it more efficient to work with. <br>
-
 # Docker caching & layering
 Docker optimizes builds using layering and caching, making image creation faster and more efficient.
 
@@ -172,44 +107,28 @@ CMD ["bash"]                    # Cached if unchanged
 
 If you modify the COPY . /app step, Docker rebuilds that step and everything after it. <br>
 
-# Best Practices
-## How to reduce the size of a Docker image? or, How to optimize Docker image build time?
-To reduce the size of a Docker image, you can follow these best practices: <br>
-1. Remove unnecessary files and directories using a `.dockerignore` file. <br>
-2. Use a smaller base image, such as Alpine Linux, instead of a full OS image. <br>
-3. Combine multiple `RUN` commands into a single `RUN` command to reduce the number of layers and therefore speed up the build process. <br>
-4. Put frequently changing instructions at the bottom of the Dockerfile to take advantage of caching. <br>
-
 ## How to leverage Docker caching for faster builds?
 To leverage Docker caching for faster builds, you can reorder the instructions in your Dockerfile so that the least frequently changing instructions are placed at the top. <br>
 This allows Docker to reuse cached layers for those instructions, speeding up the build process. <br>
 
-## What is Alpine Linux and why is it commonly used in Docker images?
-Alpine Linux is a lightweight Linux distribution that is commonly used as a base image for Docker containers.
-It is known for its small size and minimalistic design, making it an ideal choice for reducing the size of Docker images. <br>
-
-To use Alpine Linux as a base image in a Dockerfile, you can specify `alpine` as the tag for the image.
-For example, to use Alpine Linux as the base image for a Java application, you can use: <br>
-`FROM openjdk:8-alpine` <br>
-
-This will use the Alpine Linux version of the OpenJDK 8 image as the base image for your Docker container. <br>
-
-## Multi line RUN command in Dockerfile to speed up build time?
-To write a multi-line `RUN` command in a Dockerfile, you can use the backslash `\` character at the end of each line to continue the command on the next line.
-This allows you to break a long command into multiple lines for better readability. <br>
-
-For example, to install multiple packages in a single `RUN` command, you can use: <br>
-```
-RUN apt-get update && \
-    apt-get install -y package1 package2 package3
-```
-
-This reduces the number of layers created in the image, which can speed up the build process by leveraging Docker's layer caching mechanism. <br>
 
 # Docker registry?
+## What is a Docker registry?
+A Docker registry is a storage and distribution system (or, an application) for Docker images.
+It allows you to store and share Docker images with others, making it easy to distribute and deploy applications using containers. <br>
+
 ## What is docker's default registry?
 Docker's default registry is Docker Hub, a public registry that hosts a wide variety of Docker images that can be freely accessed by anyone.
 When you use the `docker pull` or `docker run` commands without specifying a registry URL, Docker pulls images from Docker Hub by default. <br>
+
+## Types of Docker registries?
+1. Public Registry: A public registry is open to the public and allows anyone to push and pull images.
+2. Private Registry: A private registry is restricted to authorized users and provides additional security and control over the images stored in the registry. <br>
+
+Examples: <br>
+- Docker Hub: The default public registry for Docker images.
+- Amazon Elastic Container Registry (ECR)/Google Container Registry (GCR)/Azure Container Registry (ACR): A private registry service provided by AWS/Google Cloud/Microsoft Azure.
+- quay.io: A container registry service provided by Red Hat that supports both public and private registries. <br>
 
 ## How to configure Docker to use a private registry?
 To configure Docker to use a private registry, you can update the Docker daemon configuration file to include the private registry URL.
@@ -228,3 +147,68 @@ To update the Docker daemon configuration, follow these steps: <br>
 ```
 
 Note: By default, Docker Hub is the fallback when no other registry provides the requested image. <br>
+
+
+# Tagging Docker images
+## How to tag a Docker image and what are the benefits of tagging a docker image?
+To tag a Docker image, you can use the `docker tag` command followed by the image ID or name and the desired tag. <br>
+`docker tag image-name image-name:tag` <br>
+
+For example, to tag an image named `my-image` with the version `v1.0`, you can use: <br>
+`docker tag my-image my-image:v1.0` <br>
+
+This allows you to assign a version number or label to the image, making it easier to identify and reference the image in the future.
+It helps you keep track of different versions of the image and ensures that you are using the correct version when running or sharing the image. <br>
+
+# Additional Questions
+## How to push a Docker image to a Docker hub & then pull the same?
+To push a Docker image to Docker Hub, you need to follow these steps: <br>
+1. Login to Docker Hub and create a repository for your images. <br>
+2. Tag your local Docker image with the repository name and version. <br>
+3. Push the tagged image to Docker Hub using the `docker push` command. <br>
+4. Verify that the image has been pushed successfully by checking the repository on Docker Hub. <br>
+5. To pull the image from Docker Hub, you can use the `docker pull` command followed by the repository name and version. <br>
+
+## What is Alpine Linux and why is it commonly used in Docker images?
+Alpine Linux is a lightweight Linux distribution that is commonly used as a base image for Docker containers.
+It is known for its small size and minimalistic design, making it an ideal choice for reducing the size of Docker images. <br>
+
+To use Alpine Linux as a base image in a Dockerfile, you can specify `alpine` as the tag for the image.
+For example, to use Alpine Linux as the base image for a Java application, you can use: <br>
+`FROM openjdk:8-alpine` <br>
+
+This will use the Alpine Linux version of the OpenJDK 8 image as the base image for your Docker container. <br>
+
+## What is a `.dockerignore` file and why is it used?
+A `.dockerignore` file is used to exclude specific files and directories from being copied into a Docker image during the build process. <br>
+It works similarly to a `.gitignore` file, allowing you to specify patterns to exclude files and directories. <br>
+
+Using a `.dockerignore` file helps reduce the size of the Docker image by excluding unnecessary files and directories. <br>
+This can speed up the build process and reduce the size of the final image, making it more efficient to work with. <br>
+
+## How to reduce the size of a Docker image? or, How to optimize Docker image build time?
+To reduce the size of a Docker image, you can follow these best practices: <br>
+1. Remove unnecessary files and directories using a `.dockerignore` file. <br>
+2. Use a smaller base image, such as Alpine Linux, instead of a full OS image. <br>
+3. Combine multiple `RUN` commands into a single `RUN` command to reduce the number of layers and therefore speed up the build process. <br>
+4. Put frequently changing instructions at the bottom of the Dockerfile to take advantage of caching. <br>
+
+## How to write a multi line RUN command in Dockerfile to speed up build time?
+To write a multi-line `RUN` command in a Dockerfile, you can use the backslash `\` character at the end of each line to continue the command on the next line.
+This allows you to break a long command into multiple lines for better readability. <br>
+
+For example, to install multiple packages in a single `RUN` command, you can use: <br>
+```
+RUN apt-get update && \
+    apt-get install -y package1 package2 package3
+```
+
+This reduces the number of layers created in the image, which can speed up the build process by leveraging Docker's layer caching mechanism. <br>
+
+# Best Practices
+- Tag your Docker images with version numbers.
+- Use a `.dockerignore` file to exclude unnecessary files.
+- Combine multiple `RUN` commands into a single `RUN` command.
+- Put frequently changing instructions at the bottom of the Dockerfile.
+- Use a smaller base image, such as Alpine Linux.
+- Leverage Docker caching for faster builds.
