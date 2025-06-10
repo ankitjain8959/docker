@@ -39,6 +39,19 @@ For example, to expose ports 8080 and 8081 on the host machine to ports 8080 and
 
 This allows you to access the container on both ports from the host machine. <br>
 
+# Docker network
+Networks are used to enable communication between containers.
+
+## How to create network aand enable communication between containers?
+**Step 1:** Create a custom docker network
+`docker network create lambda-mongo-net`
+
+This will allow containers to refer to each other by name. <br>
+
+**Step 2:** Run all containers in the same network to enable communication
+```
+docker run --name my-mongo --network lambda-mongo-net -d -p 27017:27017 mongo
+```
 
 # Docker Volume
 ## What is a Docker Volume?
