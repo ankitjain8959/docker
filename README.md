@@ -158,10 +158,15 @@ docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
 - To run a docker container: `docker run my-image`
 - To run a docker container in detached mode: `docker run -d my-image`
 - To run a docker container on a specific port: `docker run -p <host_port>:<container_port> my-image`
+- To run a docker container in detached mode on a specific port and connect to a network: `docker run --name my-mongo --network mynetwork -d -p 27017:27017 mongo`
 
 > Docker start/stop command
 - To start a container: `docker start container-id`
 - To stop a container: `docker stop container-id`
+
+> Docker create network command
+- To create a network: `docker network create mynetwork`
+- To list all networks: `docker network ls`
 
 > Docker logs command
 - To see logs/output of a container: `docker logs container-id`
