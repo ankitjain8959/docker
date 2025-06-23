@@ -1,10 +1,9 @@
 # Docker
-Docker is a tool that helps developers package their applications along with everything they need to run—code, libraries, dependencies—into a single container (or, a lightweight & standalone package). <br>
+Docker is a **tool that helps developers package their applications along with everything they need to run** - code, libraries, dependencies - into a single container (or, a lightweight & standalone package). <br>
 This container can then be run on any machine that has Docker installed, regardless of the customized settings of the machine. <br>
 
-# Containers vs Virtual Machines
-A Container is a `self-contained package` (as it includes the application code, runtime, libraries, and dependencies) & `an isolated execution environment` (as it runs separately from the host system, ensuring consistency across different machines). <br>
-
+# Virtual Machines vs Containers
+### Virtual Machines (VMs)
 A Virtual Machine (VM) is a software-based computer that runs inside another physical computer. It behaves like a real computer with its own operating system (OS), CPU, memory, and storage, but it shares the underlying hardware with other VMs. <br>
 
 Benefits (examples) of using VMs:
@@ -12,11 +11,14 @@ Benefits (examples) of using VMs:
 - You can run multiple VMs on the same physical machine. <br>
 - You can run different applications on different VMs. <br>
 
+### Containers
+A Container is a `self-contained package` (as it includes the application code, runtime, libraries, and dependencies) & `an isolated execution environment` (as it runs separately from the host system, ensuring consistency across different machines). <br>
+
 Containers are similar to virtual machines, but
 - Containers are more `lightweight` (uses less memory) and `faster` (starts in seconds) than virtual machines <br>
 - Containers are more `portable` than virtual machines, as they can be run on any machine that has Docker installed, regardless of the customized settings of the machine. <br>
 - Containers are `consistent` across different environments (works the same in development, testing and production environments), which makes them easier to manage and deploy. <br>
-- Containers share the host machine's operating system kernel, which makes them more efficient than virtual machines, which run their own operating system kernel. <br>
+- Containers `share the host machine's operating system kernel`, which makes them more efficient than virtual machines, which run their own operating system kernel. <br>
 - Containers are also more `flexible` than virtual machines, as they can be easily scaled up or down, and can be used to run multiple applications on a single host machine. <br>
 
 # The Docker Platform
@@ -32,7 +34,7 @@ It provides everything needed to develop, ship, and deploy applications in a con
 - It includes the Docker daemon, which manages containers. <br>
 
 3️⃣ Docker BuildKit 🏗️
-It is a subsystem of the Docker Engine that improves the image build process, making it faster and more efficient. <br>
+- It is a subsystem of the Docker Engine that improves the image build process, making it faster and more efficient. <br>
 
 ```
 [ You ] → Use → [ Docker CLI ] → Talks to → [ Docker Engine ] → Uses → [ BuildKit for builds ]
@@ -54,25 +56,25 @@ It is a subsystem of the Docker Engine that improves the image build process, ma
 - Helps with scaling applications. <br>
 
 # The Underlying Technology
-- Docker is written in Go and takes advantage of several features of the Linux kernel to deliver its functionality. <br>
-- Docker uses a technology called `namespaces` (a linux feature) to provide the isolated workspace called the container. When you run a container, Docker creates a set of namespaces for that container. <br>
+Docker is written in **Go** and takes advantage of several features of the Linux kernel to deliver its functionality. <br>
+Docker uses a technology called **namespaces** (a linux feature) to provide the isolated workspace called the container. When you run a container, Docker creates a set of namespaces for that container. <br>
 
 # Benefits of Docker
-- Docker ensures that your application runs the same way on any machine — your laptop, a server, or the cloud. <br>
-✅ No more `It works on my machine!` issues <br>
+Docker ensures that your application runs the same way on any machine — your laptop, a server, or the cloud. <br>
+✅ No more **It works on my machine!** issues <br>
 ✅ Package all dependencies into a container <br>
 ✅ Works across Windows, macOS, and Linux <br>
 
-- Docker is perfect for microservices, where each service runs in its own container. <br>
-- Docker works with Kubernetes, an open-source container orchestration platform, to manage and scale containers. It deploys more containers as demand increases. <br>
+Docker is perfect for microservices, where each service runs in its own container. <br>
+Docker works with Kubernetes, an open-source container orchestration platform, to manage and scale containers. It deploys more containers as demand increases. <br>
 
 ## Example use cases of Docker
 Instead of installing databases and tools directly on your machine, run them in Docker! <br>
 
-
 # Docker architecture
 Docker uses a client-server architecture. <br>
-Key Components of Docker Architecture: <br>
+
+**Key Components of Docker Architecture:** <br>
 1️⃣ Docker Client: The command-line tool that allows users to interact with Docker. <br>
 - The Docker client (docker) is the primary way that many Docker users interact with Docker. <br>
 - When you use commands such as `docker run`, the client sends these commands to `dockerd`, which carries them out. The `docker` command uses the Docker API. <br>
@@ -86,7 +88,6 @@ Key Components of Docker Architecture: <br>
 - When you use the `docker push` command, Docker pushes your image to your configured registry (Docker Hub, by default). <br>
 
 ![Docker-architecture](images/Docker-architecture.png)
-
 
 # Docker Objects
 When you use Docker, you are creating and using images, containers, networks, volumes, plugins, and other objects. <br>
@@ -137,57 +138,57 @@ When you use Docker, you are creating and using images, containers, networks, vo
 `-p 8080:8080` maps port 8080 on the host machine to port 8080 on the container. <br>
 Since Spring Boot applications typically run on port 8080, this mapping allows external access to the application running inside the container.
 
-- To run a docker container in detached mode (i.e. in the background, without blocking the terminal and container keeps running even if you close the terminal session): `docker run -d my-image`
+- Use `-d` option to run a docker container in detached mode (i.e. in the background, without blocking the terminal and container keeps running even if you close the terminal session): `docker run -d my-image`
   
 # Docker Cheat Sheet
-> Docker process command
+### Docker process command
 - To list running containers: `docker ps`
 - To list all containers: `docker ps -a`
 
-> Docker format command
+### Docker format command
 - To customize the output of the `docker ps` command: `docker ps --format "FORMAT_STRING"` <br>
 For example, to display only the container ID and name in the output, you can use: <br>
 docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
 
-> Docker image command
+### Docker image command
 - To list images: `docker images`
 
-> Docker remove command
+### Docker remove command
 - To remove a container: `docker rm container-id`
 - To remove an image: `docker rmi image-id`
 
-> Docker pull/push command
+### Docker pull/push command
 - To pull an image from Docker Hub: `docker pull image-name`
 - To push an image to Docker Hub: `docker push image-name`
 
-> Docker build/run command
+### Docker build/run command
 - To build a docker image: `docker build -t my-image .`
 - To run a docker container: `docker run my-image`
 - To run a docker container in detached mode: `docker run -d my-image`
 - To run a docker container on a specific port: `docker run -p <host_port>:<container_port> my-image`
 - To run a docker container in detached mode on a specific port and connect to a network: `docker run --name my-mongo --network mynetwork -d -p 27017:27017 mongo`
 
-> Docker start/stop command
+### Docker start/stop command
 - To start a container: `docker start container-id`
 - To stop a container: `docker stop container-id`
 
-> Docker create network command
+### Docker create network command
 - To create a network: `docker network create mynetwork`
 - To list all networks: `docker network ls`
 
-> Docker logs command
+### Docker logs command
 - To see logs/output of a container: `docker logs container-id`
 - To see & follow logs/output in real time of a container: `docker logs -f container-id`
 
-> Docker inspect command
+### Docker inspect command
 - To inspect a container (i.e. to see low-level information about Docker objects): `docker inspect container-id`
 
-> Docker exec command
+### Docker exec command
 - To run a command in a running container: `docker exec container-id ls`
 - To run a command in a running container in interactive mode: `docker exec -it container-id /bin/bash`
 - To run a command in a running container in interactive mode: `docker exec -it container-id /bin/sh`
 
-  > Docker login/logout command
+### Docker login/logout command
 - To log in to Docker Hub: `docker login`
 - To log in to a specific registry: `docker login registry-url`
 - To log in to a registry with a username: `docker login -u username registry-url`
@@ -200,12 +201,7 @@ docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
 # Docker Compose (Tool)
 - A tool to define and run multi-container applications.
 - It uses a `docker-compose.yml` file (or, just `compose.yaml` file starting Docker compose v2 version) to configure your application’s services like databases, backend, frontend, etc.
-- It simplifies container management by allowing you to define all services in a single file and run them together with one command.
-
-```
-Instead of running separate `docker run` commands for each container manually — like for my Spring Boot app, MongoDB, etc. — we can use Docker Compose to define all of them in a single YAML file `compose.yaml`.
-Then, with just one command `docker compose up`, we can build, configure, and run all the services together in a consistent, repeatable way.
-```
+- Docker Compose simplifies container management by allowing you to define all services and their configurations in a single `compose.yml` file. Instead of running multiple docker commands manually for each container, you can use Docker Compose to start/stop all services together with a single command. This approach ensures consistency and makes it easier to manage multi-container applications. <br>
 
 Example of a `docker-compose.yml` file that is equivalent to the below `docker run` command to start a MongoDB container:
 ```start mongodb
@@ -217,24 +213,24 @@ docker run -d \
     --name mongodb \
     mongo
 ```
-[compose-mongodb.yaml](src/compose-mongo-service.yaml)
+[compose-mongo-service.yaml](src/compose-mongo-service.yaml)
 
 - By default, Docker Compose sets up a network for the containers to communicate with each other even if you don't create it and mention it in the compose yaml file <br>
 - To control the order of service startup & shutdown, use the `depends_on` option in the `compose.yml` file. <br>
+- You can use variables in Docker Compose files to make them more dynamic and reusable. Variables can be defined as environment variables and referenced in the `compose.yml` file using the `${VARIABLE_NAME}` syntax. This allows you to customize configurations without modifying the file directly, making it easier to adapt to different environments or setups. For example, you can define a variable `DATABASE_PASSWORD` in your environment and use it in the `compose.yml` file <br>
 
 ## Docker Compose Commands
-- To start containers/services defined in the `docker-compose.yml` or `compose.yml` file & in detached mode: `docker compose up -d`
-- To start containers/services defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml up -d`
+#### Start Containers/Services
+- To start containers defined in the `docker-compose.yml` or `compose.yml` file & in detached mode: `docker compose up -d`
+- To start containers defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml up -d` or `docker compose -f compose-custom.yml up -d`
 
-<br>
+#### Stop Containers/Services
+- To stop containers defined in the `compose.yml` file: `docker compose stop`
+- To stop containers defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml stop` or `docker compose -f compose-custom.yml stop` <br>
 
-- To stop containers/services defined in the `compose.yml` file: `docker compose stop`
-- To stop containers/services defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml stop`
-
-<br>
-
-- To stop & remove containers/services, networks, volumes and images defined in the `compose.yml` file: `docker compose down`
-- To stop & remove containers/services, networks, volumes and images defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml down`
+#### Stop & Remove Containers/Services, Networks, Volumes, and Images in one go
+- To stop & remove containers, networks, volumes and images defined in the `compose.yml` file: `docker compose down`
+- To stop & remove containers, networks, volumes and images defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml down` or `docker compose -f compose-custom.yml down` <br>
 
 # Docker BuildKit (subsystem of Docker Engine)
 - Docker BuildKit is a subsystem of the Docker Engine that improves the image build process, making it faster, more efficient, and more secure. <br>
@@ -249,22 +245,31 @@ Important: <br>
 
 > Setting the BuildKit environment variable when running the docker build command `DOCKER_BUILDKIT=1 docker build -t my-image .`
 
-- You can pass secrets (eg: `settings.xml`) during the build process without including them in the final image, which enhances security by using a `--mount-type=secret` <br>
-  Example of using secrets in a [Dockerfile](src/Dockerfile) with BuildKit:
+- You can securely pass secrets (e.g., `settings.xml`) during the build process without including them in the final image. <br>
+  Using `--mount=type=secret`, you can mount a secret file into the container at a specified path, commonly used for Maven configurations like repository credentials. <br>
+  
+Example of using secrets in a [Dockerfile](src/Dockerfile) with BuildKit:
 ```dockerfile
 ...
 RUN --mount=type=secret,id=maven_settings,target=/root/.m2/settings.xml \
     mvn clean package -DskipTests
 ...
 ```
+To further optimize builds, you can cache Maven dependencies using the `--mount=type=cache` option, speeding up subsequent builds. Example:
+```dockerfile
+...
+RUN --mount=type=cache,target=/root/.m2 \
+    --mount=type=secret,id=maven_settings,target=/root/.m2/settings.xml \
+    mvn clean package -DskipTests
+...
+```
+
 Enable BuildKit and build
 ```
 DOCKER_BUILDKIT=1 docker build \
 --secret id=maven_settings,src=C:/Users/aj/.m2/settings.xml \
 -t your-image-name .
 ```
-
-`--mount-type=secret` allows you to mount a secret file into the build process without including it in the final image. <br>
 
 | Option            | Meaning                                                  |
 | ----------------- | -------------------------------------------------------- |
