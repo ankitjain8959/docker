@@ -24,27 +24,34 @@ Docker is a platform (set of tools & technologies) that helps developers build, 
 It provides everything needed to develop, ship, and deploy applications in a containerized environment. <br>
 
 ## Key Components of the Docker Platform
-1️⃣ Docker Engine 🛠️
+1️⃣ Docker CLI (Command-Line Interface) 💻
+- A tool that lets you interact with Docker using commands (docker run, docker build, docker ps, etc.). <br>
+
+2️⃣ Docker Engine 🛠️
 - The core runtime that allows you to build and run containers. <br>
 - It includes the Docker daemon, which manages containers. <br>
 
-2️⃣ Docker CLI (Command-Line Interface) 💻
-- A tool that lets you interact with Docker using commands (docker run, docker build, docker ps, etc.). <br>
+3️⃣ Docker BuildKit 🏗️
+It is a subsystem of the Docker Engine that improves the image build process, making it faster and more efficient. <br>
 
-3️⃣ Docker Hub 🌐
+```
+[ You ] → Use → [ Docker CLI ] → Talks to → [ Docker Engine ] → Uses → [ BuildKit for builds ]
+```
+### Additional Tools for Docker
+1️⃣ Docker Hub 🌐 (Registry)
 - A cloud-based registry where you can store and share container images. <br>
 - You can pull official images like nginx, mysql, openjdk, or push your own. <br>
 
-4️⃣ Docker Compose 📜
+2️⃣ Docker Compose 📜 (Tool)
 - A tool to define and run multi-container applications using a `docker-compose.yml` file. <br>
   Example: Running a web app with a database in a single command.
 
-5️⃣ Docker Swarm (Orchestration) ⚖️ (Legacy, now mostly replaced by Kubernetes)
+3️⃣ Docker Desktop 🖥️ (GUI Tool)
+- A GUI-based tool for running Docker on Windows and macOS. <br>
+
+4️⃣ Docker Swarm ⚖️ (Orchestration Tool - Legacy, now mostly replaced by Kubernetes)
 - A tool for managing multiple Docker containers across multiple machines. <br>
 - Helps with scaling applications. <br>
-
-6️⃣ Docker Desktop 🖥️
-- A GUI-based tool for running Docker on Windows and macOS. <br>
 
 # The Underlying Technology
 - Docker is written in Go and takes advantage of several features of the Linux kernel to deliver its functionality. <br>
@@ -210,7 +217,7 @@ docker run -d \
     --name mongodb \
     mongo
 ```
-[compose-mongodb.yaml](src/compose-mongodb.yaml)
+[compose-mongodb.yaml](src/compose-mongo-service.yaml)
 
 - By default, Docker Compose sets up a network for the containers to communicate with each other even if you don't create it and mention it in the compose yaml file <br>
 - To control the order of service startup & shutdown, use the `depends_on` option in the `compose.yml` file. <br>
@@ -219,8 +226,47 @@ docker run -d \
 - To start containers/services defined in the `docker-compose.yml` or `compose.yml` file & in detached mode: `docker compose up -d`
 - To start containers/services defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml up -d`
 
+<br>
+
 - To stop containers/services defined in the `compose.yml` file: `docker compose stop`
 - To stop containers/services defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml stop`
 
+<br>
+
 - To stop & remove containers/services, networks, volumes and images defined in the `compose.yml` file: `docker compose down`
 - To stop & remove containers/services, networks, volumes and images defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml down`
+
+# Docker BuildKit (subsystem of Docker Engine)
+- Docker BuildKit is a subsystem of the Docker Engine that improves the image build process, making it faster, more efficient, and more secure. <br>
+- It is an improved backend to replace the legacy builder that Docker used to build images.
+
+Important: <br>
+- BuildKit is the default builder for users on Docker Desktop, and Docker Engine as of version 23.0.
+- If you are running a version of Docker Engine version earlier than 23.0 of if by any chance it is disabled, you can enable BuildKit either by 
+> Setting an environment variable `DOCKER_BUILDKIT=1` before running the `docker build` command. <br> 
+ 
+> Making BuildKit the default setting in the daemon configuration file `/etc/docker/daemon.json` by adding `"features": {"buildkit": true}` to the file and restarting the Docker daemon. <br>
+
+> Setting the BuildKit environment variable when running the docker build command `DOCKER_BUILDKIT=1 docker build -t my-image .`
+
+- You can pass secrets (eg: `settings.xml`) during the build process without including them in the final image, which enhances security by using a `--mount-type=secret` <br>
+  Example of using secrets in a [Dockerfile](src/Dockerfile) with BuildKit:
+```dockerfile
+...
+RUN --mount=type=secret,id=maven_settings,target=/root/.m2/settings.xml \
+    mvn clean package -DskipTests
+...
+```
+Enable BuildKit and build
+```
+DOCKER_BUILDKIT=1 docker build \
+--secret id=maven_settings,src=C:/Users/aj/.m2/settings.xml \
+-t your-image-name .
+```
+
+`--mount-type=secret` allows you to mount a secret file into the build process without including it in the final image. <br>
+
+| Option            | Meaning                                                  |
+| ----------------- | -------------------------------------------------------- |
+| `id`              | The ID of the secret (defined in Docker Compose or CLI). |
+| `target` or `dst` | Path where the secret gets mounted inside the container. |

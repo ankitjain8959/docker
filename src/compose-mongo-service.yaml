@@ -10,8 +10,16 @@ services:                                                   # List & define all 
         MONGO_INITDB_ROOT_PASSWORD: rootpass
   my-service:                                               # Service name for your application (replace with actual service name)
     build: .                                                # Build the service from the current directory (Dockerfile should be present)
-    image: myservice                                        # Image name for the service
+    image: service                                          # Image name for the service
     ports:
       - "8080:8080"                                         # <host_port>:<container_port> port mapping for the service
     depends_on:
       - mongodb                                             # Ensure MongoDB starts before this service
+    secrets:                                                # List of secrets to be used by the service
+      - maven_settings                                      # Reference to the secret defined below
+
+secrets:                                                   # Define secrets for the service
+    maven_settings:                                        # Secret name for Maven settings & is defined in Dockerfile
+        file: C:/Users/aj/.m2/settings.xml                 # Path to the secret file
+        # You can also use 'external: true' if the secret is managed outside of this compose file
+        # external: true
