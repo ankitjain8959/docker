@@ -1,0 +1,17 @@
+version: '3.8'                                              # Version of Docker Compose tool that's installed
+services:                                                   # List & define all services that will run in containers
+  mongodb:                                                  # Service name for MongoDB
+    image: mongo:7.0                                        # Use official MongoDB image (you can change version). If image is not available, and if you want to build it from a Dockerfile, you can use 'build: .'
+    ports:
+      - "27017:27017"                                       # <host_port>:<container_port> port mapping
+    environment:                                            # Environment variables for MongoDB container
+        MONGO_INITDB_DATABASE: mydb                         # Default DB to create on startup
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: rootpass
+  my-service:                                               # Service name for your application (replace with actual service name)
+    build: .                                                # Build the service from the current directory (Dockerfile should be present)
+    image: myservice                                        # Image name for the service
+    ports:
+      - "8080:8080"                                         # <host_port>:<container_port> port mapping for the service
+    depends_on:
+      - mongodb                                             # Ensure MongoDB starts before this service

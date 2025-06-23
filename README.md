@@ -36,7 +36,7 @@ It provides everything needed to develop, ship, and deploy applications in a con
 - You can pull official images like nginx, mysql, openjdk, or push your own. <br>
 
 4️⃣ Docker Compose 📜
-- A tool to define and run multi-container applications using a docker-compose.yml file. <br>
+- A tool to define and run multi-container applications using a `docker-compose.yml` file. <br>
   Example: Running a web app with a database in a single command.
 
 5️⃣ Docker Swarm (Orchestration) ⚖️ (Legacy, now mostly replaced by Kubernetes)
@@ -78,7 +78,7 @@ Key Components of Docker Architecture: <br>
  - When you use the `docker pull` or `docker run` commands, Docker pulls the required images from your configured registry (Docker Hub, by default). <br>
 - When you use the `docker push` command, Docker pushes your image to your configured registry (Docker Hub, by default). <br>
 
-![Docker-architecture](Docker-architecture.png)
+![Docker-architecture](images/Docker-architecture.png)
 
 
 # Docker Objects
@@ -189,3 +189,38 @@ docker ps --format "ID: {{.ID}}\tName: {{.Names}}"
 
 - To log out from Docker Hub: `docker logout`
 - To log out from a specific registry: `docker logout registry-url`
+
+# Docker Compose (Tool)
+- A tool to define and run multi-container applications.
+- It uses a `docker-compose.yml` file (or, just `compose.yaml` file starting Docker compose v2 version) to configure your application’s services like databases, backend, frontend, etc.
+- It simplifies container management by allowing you to define all services in a single file and run them together with one command.
+
+```
+Instead of running separate `docker run` commands for each container manually — like for my Spring Boot app, MongoDB, etc. — we can use Docker Compose to define all of them in a single YAML file `compose.yaml`.
+Then, with just one command `docker compose up`, we can build, configure, and run all the services together in a consistent, repeatable way.
+```
+
+Example of a `docker-compose.yml` file that is equivalent to the below `docker run` command to start a MongoDB container:
+```start mongodb
+docker run -d \
+    -p 27017:27017 \
+    -e MONGO_INITDB_ROOT_USERNAME=admin \
+    -e MONGO_INITDB_ROOT_PASSWORD=admin \
+    --network mongo-network \
+    --name mongodb \
+    mongo
+```
+[compose-mongodb.yaml](src/compose-mongodb.yaml)
+
+- By default, Docker Compose sets up a network for the containers to communicate with each other even if you don't create it and mention it in the compose yaml file <br>
+- To control the order of service startup & shutdown, use the `depends_on` option in the `compose.yml` file. <br>
+
+## Docker Compose Commands
+- To start containers/services defined in the `docker-compose.yml` or `compose.yml` file & in detached mode: `docker compose up -d`
+- To start containers/services defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml up -d`
+
+- To stop containers/services defined in the `compose.yml` file: `docker compose stop`
+- To stop containers/services defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml stop`
+
+- To stop & remove containers/services, networks, volumes and images defined in the `compose.yml` file: `docker compose down`
+- To stop & remove containers/services, networks, volumes and images defined in a custom `compose-custom.yml` file: `docker-compose -f compose-custom.yml down`
