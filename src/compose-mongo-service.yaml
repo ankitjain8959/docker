@@ -20,6 +20,6 @@ services:                                                   # List & define all 
 
 secrets:                                                   # Define secrets for the service
     maven_settings:                                        # Secret name for Maven settings & is defined in Dockerfile
-        file: C:/Users/aj/.m2/settings.xml                 # Path to the secret file
+        file: C:\Users\ankit\.m2\settings.xml              # Path to the secret file
         # You can also use 'external: true' if the secret is managed outside of this compose file
         # external: true
